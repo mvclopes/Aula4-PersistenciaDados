@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">PersistenciaDados</string>
+    <string name="nome">Nome</string>
+    <string name="tratamento">Tratamento</string>
+    <string name="salvar_nova_saudacao">Salvar nova saudação</string>
+    <string name="exibir_saudacao">Exibir saudação</string>
+
+    <string-array name="saudacoes">
+        <item>Sr</item>
+        <item>Sra</item>
+        <item>Dr</item>
+        <item>Dra</item>
+        <item>Sem tratamento</item>
+    </string-array>
+</resources>
