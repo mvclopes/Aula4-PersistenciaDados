@@ -1,6 +1,5 @@
 package com.mvclopes.persistenciadados
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -15,21 +14,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        binding.btnSalvar.setOnClickListener {
-            // Obtida instância do Shared Preference, determinando o modo como privado
-            val greetingPreferences = this.getSharedPreferences(GREETING_KEY, Context.MODE_PRIVATE)
-            val editor = greetingPreferences.edit()
+        // Obtendo instância do gestor de banco de dados SQLite
+        val db = DatabaseManager(this, DATABASE_NAME)
 
-            // Obtenção dos dados (Nome e Tratamento) dos componentes EditText e Spinner
+        binding.btnSalvar.setOnClickListener {
+            // Remoção de determinado dado (ID=1) do banco de dados
+            db.removeGreeting()
+
+            // Obtenção dos dados (Nome e Tratamento) que serão inseridos no banco de dados
             val name = binding.nomeInput.text.toString()
             val treatment = binding.tratamentoSpinner.selectedItem.toString()
 
-            // Persistir os dados (Nome e tratamento) no Shared Preferences
-            editor.putString(NAME_KEY, name)
-            editor.putString(TREATMENT_KEY, treatment)
-            editor.apply()
+            // Inserindo novo dado ao banco de dados, especificando seu ID
+            db.insertGreeting(1, name, treatment)
 
-            // Mensagem visual para informar ao usuário que o dado foi salvo com sucesso
+            // Exibição visual informando que o dado foi salvo com sucesso no banco de dados
             Toast.makeText(this, "Dado salvo!", Toast.LENGTH_SHORT).show()
         }
 
@@ -40,10 +39,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Constantes com as chaves dos dados do Shared Preference
+    // Constantes com as chaves referente ao Banco de Dados
     companion object {
-        const val GREETING_KEY = "saudacao"
-        const val NAME_KEY = "nome"
-        const val TREATMENT_KEY = "tratamento"
+        const val DATABASE_NAME = "saudacoes"
+        const val TABLE_NAME = "SAUDACAO"
+        const val COLUMN_ID = "ID_SAUDACAO"
+        const val COLUMN_NAME = "NOME"
+        const val COLUMN_TREATMENT = "TRATAMENTO"
     }
 }
